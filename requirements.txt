@@ -1,4 +1,11 @@
-pandas
-plotly
-streamlit
-openai
+# Core demo (explorer, chat, benchmark views)
+streamlit>=1.49
+plotly>=5.18
+pandas>=2.0
+
+# Live UQ view.
+openai>=1.0
+numpy>=1.24
+scipy>=1.10
+networkx>=3.0
+scikit-learn>=1.3
