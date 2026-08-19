@@ -28,6 +28,7 @@ Uncertainty methods (computed via the project's uncertainty_quantification_metho
 
 Run:  python -m streamlit run demo/app.py
 """
+import html as _html
 import json
 import math
 import os
@@ -124,6 +125,8 @@ def _set_view(v):
 # the rest of the script executes — no st.rerun() needed (more robust across
 # Streamlit versions / Streamlit Cloud).
 if st.session_state.view == "explore":
+    st.sidebar.button("🔴  Live UQ (your own OpenRouter key)",
+                      on_click=_set_view, args=("live",))
     st.sidebar.button("💬  Sycophancy chat demo",
                       on_click=_set_view, args=("chat",))
     st.sidebar.button("📊  Benchmark: methods × datasets",
@@ -180,6 +183,284 @@ if st.session_state.view == "chat":
             st.caption("↪ changed its answer" if changed else "↪ kept its answer")
 
         st.info(c["takeaway"])
+    st.stop()
+
+# ---------------------------------------------------------------------------
+# Live view — sample via OpenRouter (bring-your-own key) and compute UQ in real time
+# ---------------------------------------------------------------------------
+def _repo_root():
+    return os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _openrouter_sample(client, model, question, n, temp, max_tokens):
+    """Sample n answers via OpenRouter; return (answers, sequence log-likelihoods)."""
+    prompt = ("Answer the question as briefly as possible — just the answer.\n"
+              f"Question: {question}\nAnswer:")
+    answers, lls = [], []
+    prog = st.progress(0.0, "Sampling…")
+    for i in range(n):
+        try:
+            r = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=max_tokens,
+                temperature=temp,
+                logprobs=True,
+                top_logprobs=1,
+            )
+            answers.append((r.choices[0].message.content or "").strip())
+            ll = 0.0
+            try:
+                for tok in r.choices[0].logprobs.content:
+                    ll += float(tok.logprob)
+            except Exception:
+                ll = float("nan")
+        except Exception:
+            answers.append("")
+            ll = float("nan")
+        lls.append(ll)
+        prog.progress((i + 1) / (n + 1), f"Sampling… {i + 1}/{n}")
+    prog.progress(1.0, "Done sampling")
+    prog.empty()
+    return answers, lls
+
+
+def _openrouter_nli_matrix(client, model, question, answers):
+    """One call: full ordered-pair NLI matrix (2=entails, 1=neutral, 0=contradicts)."""
+    import json as _json
+    listing = "\n".join(f"{i + 1}. {a}" for i, a in enumerate(answers))
+    prompt = (
+        f"Question: {question}\nCandidate answers:\n{listing}\n\n"
+        "For every ordered pair (i, j) with i != j (1-indexed), classify how answer i "
+        "relates to answer j AS ANSWERS TO THE QUESTION: 2 = i entails or means the "
+        "same as j, 0 = i contradicts or is incompatible with j, 1 = neutral. "
+        'Return ONLY a JSON object whose keys are "i,j" and values are 0, 1 or 2, '
+        "covering all ordered pairs.")
+    n = len(answers)
+    labels = {}
+    try:
+        r = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.0,
+            response_format={"type": "json_object"},
+            max_tokens=1024,
+        )
+        raw = _json.loads(r.choices[0].message.content or "{}")
+        for kk, vv in raw.items():
+            a, b = kk.replace(" ", "").split(",")
+            labels[(int(a) - 1, int(b) - 1)] = int(vv)
+    except Exception:
+        pass
+    for i in range(n):          # default any missing pair to neutral
+        for j in range(n):
+            if i != j:
+                labels.setdefault((i, j), 1)
+    return labels
+
+
+OR_MODEL = "openrouter/free"
+
+if st.session_state.view == "live":
+    st.subheader("🔴 Live: sampling-based UQ on your own question")
+    st.markdown(
+        "Bring your own **OpenRouter API key** — it stays in this browser "
+        "session only (never stored or logged). We sample a free model "
+        "several times, cluster the answers by meaning, and compute the "
+        "uncertainty live, exactly like the pre-computed examples.")
+    with st.expander("How to get an OpenRouter API key (free)"):
+        st.markdown("Create one at [openrouter.ai/keys](https://openrouter.ai/keys). "
+                    "Free-tier models (`:free` suffix) require no credits.")
+
+    key = st.text_input("OpenRouter API key", type="password",
+                        placeholder="sk-or-…", help="Kept in session memory only.")
+    suggested = [
+        "Who wrote the novel Cider With Rosie?",
+        "What is the capital city of Australia?",
+        "Which English football club has H'Angus the Monkey as its mascot?",
+        "How many hearts does an octopus have?",
+        "Who painted the ceiling of the Sistine Chapel?",
+    ]
+    c1, c2 = st.columns([3, 1])
+    with c1:
+        pick = st.selectbox("Pick a question…", ["(type my own)"] + suggested)
+        question = st.text_input("…or type your own",
+                                 value="" if pick == "(type my own)" else pick)
+        if not question and pick != "(type my own)":
+            question = pick
+    with c2:
+        n_samples = st.slider("Samples", 5, 12, 10)
+        temp = st.slider("Temperature", 0.3, 1.5, 1.0, 0.1)
+
+    run = st.button("Run live UQ", type="primary",
+                    disabled=not (key and question.strip()))
+
+    if run:
+        try:
+            from openai import OpenAI as _OpenAI
+        except Exception:
+            st.error("`openai` isn't installed. Add it to demo/requirements.txt.")
+            st.stop()
+        import sys as _sys
+        _sys.path.insert(0, _repo_root())
+        try:
+            import numpy as _np
+            import networkx as _nx
+            from uncertainty_quantification_methods import (
+                get_semantic_ids, _unc_from_artifacts, discrete_semantic_entropy,
+                build_weighted_graph)
+        except Exception as ex:
+            st.error(f"UQ dependencies missing ({ex}). Add numpy, scipy, networkx, "
+                     "scikit-learn to demo/requirements.txt.")
+            st.stop()
+
+        try:
+            client = _OpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=key,
+            )
+            with st.spinner("Calling OpenRouter…"):
+                answers, lls = _openrouter_sample(client, OR_MODEL,
+                                                  question, n_samples, temp, 64)
+                labels = _openrouter_nli_matrix(client, OR_MODEL,
+                                                question, answers)
+        except Exception as ex:
+            st.error(f"OpenRouter call failed: {ex}")
+            st.stop()
+
+        n = len(answers)
+        has_lls = all(l == l for l in lls) and any(l != 0.0 for l in lls)
+        lls_use = [0.0 if (l != l) else l for l in lls]  # NaN -> 0 fallback
+        art = _unc_from_artifacts(answers, lls_use, labels, kle_t=0.3, alpha=0.5,
+                                  log_likelihoods_eos=lls_use)
+        sids = get_semantic_ids(answers, labels)
+        dse_raw = discrete_semantic_entropy(sids)["unc_dse"]
+        dse_norm = float(dse_raw / _np.log(n)) if n > 1 else 0.0
+        metrics = {
+            "Semantic Entropy": art["unc_semantic_entropy"] if has_lls else None,
+            "Discrete SE": dse_norm,
+            "Evidential SE": art["unc_ese"] if has_lls else None,
+            "KLE-full": art["unc_kle_full"] if has_lls else None,
+            "KLE-heat": art["unc_kle_heat"],
+            "Chao-Shen": art["unc_chao_shen"],
+            "Hybrid Chao-Shen": art["unc_hybrid_chao_shen"],
+        }
+        # clusters
+        from collections import Counter as _Counter
+        clusters = {}
+        for idx, s in enumerate(sids):
+            clusters.setdefault(int(s), []).append(answers[idx])
+        ordered = sorted(clusters.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+
+        def _rep(mem):
+            nonempty = [m for m in mem if m.strip()]
+            pool = nonempty if nonempty else mem
+            return _Counter(pool).most_common(1)[0][0] if pool else ""
+
+        cluster_list = [{"members": mem, "representative": _rep(mem),
+                         "size": len(mem)} for _, mem in ordered]
+        # graph
+        G = build_weighted_graph(labels, n)
+        G.add_nodes_from(range(n))
+        pos = _nx.spring_layout(G, seed=42, weight="weight")
+        rank = {c: i for i, (c, _) in enumerate(_Counter(sids).most_common())}
+        gnodes = [{"x": float(pos[i][0]), "y": float(pos[i][1]),
+                   "crank": rank[sids[i]], "answer": answers[i]} for i in range(n)]
+        gedges = [{"s": int(u), "t": int(v), "w": float(d["weight"])}
+                  for u, v, d in G.edges(data=True)]
+
+        st.session_state["live_result"] = {
+            "question": question, "answers": answers, "n": n,
+            "metrics": metrics, "has_lls": has_lls,
+            "clusters": cluster_list, "n_clusters": len(clusters),
+            "modal": _Counter(a for a in answers if a.strip()).most_common(1)[0][0]
+                     if any(a.strip() for a in answers) else "",
+            "gnodes": gnodes, "gedges": gedges,
+        }
+
+    res = st.session_state.get("live_result")
+    if res:
+        st.markdown("---")
+        st.markdown("#### Most frequent answer")
+        modal_safe = _html.escape(res["modal"]) if res["modal"] else "<em style='color:#898781'>no answer returned</em>"
+        st.markdown(
+            f"<div class='answer-box'><span style='font-size:1.05rem'>"
+            f"{modal_safe}</span></div>", unsafe_allow_html=True)
+        st.caption(f"{res['n_clusters']} distinct answer clusters across "
+                   f"{res['n']} samples. No gold answer here — this is uncertainty "
+                   f"without ground truth.")
+
+        method = st.selectbox("Uncertainty method", methods, index=methods.index("KLE-heat"))
+        unc = res["metrics"].get(method)
+        if unc is None:
+            st.info(f"{method} needs token log-probabilities that weren't returned.")
+        else:
+            pct = int(round(unc * 100))
+            st.markdown(
+                f"<div class='kpi-lab'>{method} — uncertainty</div>"
+                f"<div class='kpi-num'>{unc:.2f}</div>"
+                f"<div class='meter-track'><div class='meter-fill' "
+                f"style='width:{pct}%;'></div></div>", unsafe_allow_html=True)
+
+        lt1, lt2, lt3 = st.tabs(["📋 All methods", "🔬 Clusters (Discrete SE)",
+                                 "🕸️ Similarity graph (KLE-heat)"])
+        with lt1:
+            rows = [{"Method": m,
+                     "Uncertainty": "—" if res["metrics"][m] is None else f"{res['metrics'][m]:.3f}"}
+                    for m in methods]
+            st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+            if not res["has_lls"]:
+                st.caption("Log-prob-based methods (SE, KLE-full, Evidential SE) are "
+                           "n/a — the model didn't return token log-probabilities.")
+
+        with lt2:
+            n = res["n"]
+            sizes = [c["size"] for c in res["clusters"]]
+            xlab = [f"C{i+1}" for i in range(len(res["clusters"]))]
+            fig = go.Figure(go.Bar(x=xlab, y=sizes, marker_color=BLUE, text=sizes,
+                                   textposition="outside", marker_line_width=0))
+            fig.update_layout(height=300, margin=dict(l=10, r=10, t=10, b=10),
+                              paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
+                              yaxis=dict(title="samples", gridcolor=GRID, dtick=1,
+                                         color=INK_2), xaxis=dict(color=INK_2),
+                              showlegend=False, font=dict(color=INK))
+            st.plotly_chart(fig, width="stretch")
+            for i, c in enumerate(res["clusters"]):
+                with st.expander(f"C{i+1} · {c['representative'][:60]} — "
+                                 f"{c['size']}/{n}"):
+                    for mem in c["members"]:
+                        st.markdown(f"- {mem or '*(empty)*'}")
+
+        with lt3:
+            nodes, edges = res["gnodes"], res["gedges"]
+            figg = go.Figure()
+            byw = {}
+            for ed in edges:
+                byw.setdefault(ed["w"], []).append(ed)
+            for w in sorted(byw):
+                xs, ys = [], []
+                for ed in byw[w]:
+                    a, b = nodes[ed["s"]], nodes[ed["t"]]
+                    xs += [a["x"], b["x"], None]
+                    ys += [a["y"], b["y"], None]
+                figg.add_trace(go.Scatter(
+                    x=xs, y=ys, mode="lines", hoverinfo="skip", showlegend=False,
+                    line=dict(width=0.6 + 1.4 * w,
+                              color=f"rgba(82,81,78,{0.18 + 0.22 * w:.2f})")))
+            cols = [CAT[nd["crank"]] if nd["crank"] < len(CAT) else MUTED
+                    for nd in nodes]
+            figg.add_trace(go.Scatter(
+                x=[nd["x"] for nd in nodes], y=[nd["y"] for nd in nodes],
+                mode="markers", showlegend=False,
+                hovertext=[nd["answer"][:70] for nd in nodes], hoverinfo="text",
+                marker=dict(size=22, color=cols, line=dict(width=2, color=SURFACE))))
+            figg.update_layout(height=420, margin=dict(l=10, r=10, t=10, b=10),
+                               paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
+                               xaxis=dict(visible=False),
+                               yaxis=dict(visible=False, scaleanchor="x"),
+                               font=dict(color=INK))
+            st.plotly_chart(figg, width="stretch")
+            st.caption("Connected blob → low uncertainty; scattered nodes → high.")
     st.stop()
 
 # ---------------------------------------------------------------------------
@@ -296,7 +577,7 @@ for i, ex in enumerate(examples):
         lab = f"{lab}  ·#{i + 1}"
     q_labels.append(lab)
 
-choice = st.selectbox("Question (curated for this model)", q_labels, index=0,
+choice = st.radio("Question (curated for this model)", q_labels, index=0,
                       key=f"q_{model}")
 e = examples[q_labels.index(choice)]
 
