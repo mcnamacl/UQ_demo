@@ -105,6 +105,7 @@ methods = data["methods"]
 outcomes = data["outcomes"]
 chat_examples = data.get("chat_examples", [])
 challenge_prompt = data.get("challenge_prompt", "Are you sure? Please reconsider your answer.")
+benchmark = data.get("benchmark")
 
 st.title("Uncertainty Quantification — sampling-based methods")
 
@@ -116,6 +117,9 @@ if "view" not in st.session_state:
 if st.session_state.view == "explore":
     if st.sidebar.button("💬  Sycophancy chat demo"):
         st.session_state.view = "chat"
+        st.rerun()
+    if st.sidebar.button("📊  Benchmark: methods × datasets"):
+        st.session_state.view = "benchmark"
         st.rerun()
 else:
     if st.sidebar.button("←  Back to explorer"):
@@ -170,6 +174,77 @@ if st.session_state.view == "chat":
             st.caption("↪ changed its answer" if changed else "↪ kept its answer")
 
         st.info(c["takeaway"])
+    st.stop()
+
+# ---------------------------------------------------------------------------
+# Benchmark view — correctness-AUROC per method across datasets
+# ---------------------------------------------------------------------------
+if st.session_state.view == "benchmark" and benchmark:
+    bmethods = benchmark["methods"]
+    bdatasets = benchmark["datasets"]
+    bmodels = benchmark["models"]
+
+    st.subheader("How the methods perform across datasets")
+    st.markdown(
+        "**AUROC** = how well a method's uncertainty score separates **incorrect** "
+        "from correct answers (**0.5 = chance, 1.0 = perfect**). Higher is better. "
+        "Only sampling-based methods are shown. ")
+
+    bmodel = st.radio("Model", bmodels, horizontal=True, key="bench_model")
+    mv = benchmark["values"][bmodel]
+
+    # best method per dataset (column) among available methods
+    best = {}
+    for ds in bdatasets:
+        avail = [(m, mv[m][ds][0]) for m in bmethods if mv[m]]
+        best[ds] = max(avail, key=lambda t: t[1])[0] if avail else None
+
+    z, hover = [], []
+    for m in bmethods:
+        zr, hr = [], []
+        for ds in bdatasets:
+            cell = mv[m][ds] if mv[m] else None
+            if cell is None:
+                zr.append(None)
+                hr.append(f"{m} · {ds}<br>n/a (needs token probabilities)")
+            else:
+                mean, sd = cell[0], cell[1]
+                zr.append(mean)
+                hr.append(f"{m} · {ds}<br>AUROC {mean:.3f}"
+                          + (f" ± {sd:.3f}" if sd is not None else " (single run)"))
+        z.append(zr)
+        hover.append(hr)
+
+    fig_b = go.Figure(go.Heatmap(
+        z=z, x=bdatasets, y=bmethods, text=hover, hoverinfo="text",
+        colorscale=[[0.0, "#eaf2fd"], [0.5, "#6da7ec"], [1.0, "#16508f"]],
+        zmin=0.5, zmax=0.9, xgap=3, ygap=3, hoverongaps=False,
+        colorbar=dict(title="AUROC", thickness=12, outlinewidth=0,
+                      tickfont=dict(color=INK_2))))
+    for i, m in enumerate(bmethods):
+        for ds in bdatasets:
+            cell = mv[m][ds] if mv[m] else None
+            if cell is None:
+                txt, color = "n/a", MUTED
+            else:
+                v = cell[0]
+                txt = f"{v:.2f}" + ("  ★" if best[ds] == m else "")
+                color = "#ffffff" if v >= 0.74 else INK
+            fig_b.add_annotation(x=ds, y=m, text=txt, showarrow=False,
+                                 font=dict(color=color, size=13))
+    fig_b.update_yaxes(autorange="reversed")
+    fig_b.update_layout(
+        height=340, margin=dict(l=10, r=10, t=10, b=10),
+        paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
+        xaxis=dict(side="top", color=INK_2), yaxis=dict(color=INK),
+        font=dict(color=INK, family="system-ui, -apple-system, Segoe UI, sans-serif"))
+    st.plotly_chart(fig_b, width="stretch")
+    st.caption("★ = best method for that dataset (mean over 3 runs; Claude Haiku "
+               "is a single run). Hover for ± std.")
+
+    st.info(benchmark["headline"])
+    if any(mv[m] is None for m in bmethods):
+        st.caption("ℹ️ " + benchmark["note"])
     st.stop()
 
 st.caption("Pre-generated results. Pick a model, then a question curated for "
