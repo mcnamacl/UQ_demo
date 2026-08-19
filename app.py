@@ -126,7 +126,7 @@ def _set_view(v):
 # Streamlit versions / Streamlit Cloud).
 if st.session_state.view == "explore":
     st.sidebar.button("🔴  Live UQ (your own OpenRouter key)",
-                      on_click=_set_view, args=("live",))
+                      on_click=_set_view, args=("live",), disabled=True)
     st.sidebar.button("💬  Sycophancy chat demo",
                       on_click=_set_view, args=("chat",))
     st.sidebar.button("📊  Benchmark: methods × datasets",
