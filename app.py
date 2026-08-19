@@ -13,6 +13,19 @@ sampling-based uncertainty under a chosen method. A second view shows how the
 sampled answers were grouped into semantic clusters to produce a Discrete
 Semantic Entropy (SE) estimate — the most intuitive of the sampling methods.
 
+Uncertainty methods (computed via the project's uncertainty_quantification_methods.py):
+  - Semantic Entropy / Discrete SE: Kuhn, Gal & Farquhar, "Semantic Uncertainty",
+    ICLR 2023; discrete variant in Farquhar et al., Nature 2024.
+  - Kernel Language Entropy (KLE-full, KLE-heat): Nikitin, Kossen, Gal & Marttinen,
+    "Kernel Language Entropy", NeurIPS 2024.
+  - Chao-Shen: Chao & Shen, 2003 (coverage-adjusted entropy). Hybrid Chao-Shen
+    (coverage from a hybrid semantic-alphabet-size estimate, max of Good-Turing and
+    the U-EIGV spectral estimate): McCabe et al., "Estimating Semantic Alphabet Size
+    for LLM Uncertainty Quantification", arXiv:2509.14478; the U-EIGV term itself
+    follows https://openreview.net/pdf?id=DWkJCSxKU5.
+  - Evidential Semantic Entropy: Kunitomo-Jacquin et al., EACL 2026 (implementation
+    adapted from the `evsme` repository).
+
 Run:  python -m streamlit run demo/app.py
 """
 import json
