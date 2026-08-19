@@ -114,17 +114,23 @@ st.title("Uncertainty Quantification — sampling-based methods")
 # ---------------------------------------------------------------------------
 if "view" not in st.session_state:
     st.session_state.view = "explore"
+
+
+def _set_view(v):
+    st.session_state.view = v
+
+
+# on_click callbacks run BEFORE the rerun, so the view is already updated when
+# the rest of the script executes — no st.rerun() needed (more robust across
+# Streamlit versions / Streamlit Cloud).
 if st.session_state.view == "explore":
-    if st.sidebar.button("💬  Sycophancy chat demo"):
-        st.session_state.view = "chat"
-        st.rerun()
-    if st.sidebar.button("📊  Benchmark: methods × datasets"):
-        st.session_state.view = "benchmark"
-        st.rerun()
+    st.sidebar.button("💬  Sycophancy chat demo",
+                      on_click=_set_view, args=("chat",))
+    st.sidebar.button("📊  Benchmark: methods × datasets",
+                      on_click=_set_view, args=("benchmark",))
 else:
-    if st.sidebar.button("←  Back to explorer"):
-        st.session_state.view = "explore"
-        st.rerun()
+    st.sidebar.button("←  Back to explorer",
+                      on_click=_set_view, args=("explore",))
 
 # ---------------------------------------------------------------------------
 # Chat / sycophancy view
@@ -179,7 +185,11 @@ if st.session_state.view == "chat":
 # ---------------------------------------------------------------------------
 # Benchmark view — correctness-AUROC per method across datasets
 # ---------------------------------------------------------------------------
-if st.session_state.view == "benchmark" and benchmark:
+if st.session_state.view == "benchmark":
+    if not benchmark:
+        st.warning("Benchmark data isn't present in demo_data.json. Regenerate it "
+                   "with `python demo/export_demo_data.py` and redeploy.")
+        st.stop()
     bmethods = benchmark["methods"]
     bdatasets = benchmark["datasets"]
     bmodels = benchmark["models"]
