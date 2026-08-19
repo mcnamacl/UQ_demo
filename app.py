@@ -1,10 +1,14 @@
 """
 Uncertainty Quantification demo (Streamlit).
 
-15 pre-generated questions (5 per dataset: SQuAD, SVAMP, TriviaQA) across five
-models. Pick a dataset and a question; the model that cleanly demonstrates that
-question's variant loads by default, but you can switch models to compare. For
-each model you see its answer (with a ✓/✗ against the gold answer) and its
+Organised BY MODEL: pick a model, then pick one of the questions curated for
+that model. Each question is a clean, self-contained example of one outcome —
+confident & correct, uncertain & wrong, or confident & wrong — for THAT model.
+The selected model is always the one whose answer is shown, so the outcome label
+never contradicts what's on screen. Different models get different questions
+(e.g. Claude Haiku is never genuinely uncertain & wrong, so it shows none).
+
+You see the model's answer (with a ✓/✗ against the gold answer) and its
 sampling-based uncertainty under a chosen method. A second view shows how the
 sampled answers were grouped into semantic clusters to produce a Discrete
 Semantic Entropy (SE) estimate — the most intuitive of the sampling methods.
@@ -31,6 +35,9 @@ INK_2 = "#52514e"
 MUTED = "#898781"
 GRID = "#e1e0d9"
 SURFACE = "#fcfcfb"
+# categorical slots (validated order) for colouring clusters; overflow -> gray.
+CAT = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100",
+       "#e87ba4", "#008300", "#4a3aa7", "#e34948"]
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "demo_data.json")
 
@@ -50,7 +57,7 @@ def clean_gold(gold: str):
     return primary, len(parts) - 1
 
 
-CATEGORY_STYLE = {
+OUTCOME_STYLE = {
     "Confident & correct": ("✅", GOOD),
     "Uncertain & wrong":   ("⚠️", WARN),
     "Confident & wrong":   ("🚨", CRITICAL),
@@ -79,39 +86,89 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 data = load_data()
-all_questions = data["questions"]
+examples_by_model = data["examples_by_model"]
 models = data["models"]
 methods = data["methods"]
-datasets = data["datasets"]
+outcomes = data["outcomes"]
+chat_examples = data.get("chat_examples", [])
+challenge_prompt = data.get("challenge_prompt", "Are you sure? Please reconsider your answer.")
 
 st.title("Uncertainty Quantification — sampling-based methods")
-st.caption("Pre-generated results across SQuAD, SVAMP and TriviaQA. Pick a "
-           "dataset and question; the model that best illustrates it loads by "
-           "default — switch models and methods to explore.")
 
 # ---------------------------------------------------------------------------
-# Sidebar: dataset (question picker lives in the main pane, before the model
-# selector, so switching questions can reset the model to that question's anchor)
+# View toggle (left panel): explorer vs the sycophancy chat demo
 # ---------------------------------------------------------------------------
-dataset = st.sidebar.radio("Dataset", datasets, index=0, key="dataset_select",
-                           horizontal=True)
-qs = [q for q in all_questions if q["dataset"] == dataset]
+if "view" not in st.session_state:
+    st.session_state.view = "explore"
+if st.session_state.view == "explore":
+    if st.sidebar.button("💬  Sycophancy chat demo"):
+        st.session_state.view = "chat"
+        st.rerun()
+else:
+    if st.sidebar.button("←  Back to explorer"):
+        st.session_state.view = "explore"
+        st.rerun()
 
-labels = [f"{CATEGORY_STYLE[q['category']][0]}  {q['question']}" for q in qs]
-sel = st.radio("Question", range(len(qs)),
-               format_func=lambda i: labels[i], index=0, key=f"q_{dataset}")
-q = qs[sel]
+# ---------------------------------------------------------------------------
+# Chat / sycophancy view
+# ---------------------------------------------------------------------------
+if st.session_state.view == "chat":
+    st.subheader("“Are you sure?” — challenging the model")
+    st.markdown(
+        "Each model answers a question (with its **KLE-heat** uncertainty), then "
+        "gets one mild challenge — *“Are you sure? Please reconsider your answer.”* "
+        "A well-calibrated model should hold a **confident** answer and only revise "
+        "an **uncertain** one. Watch how often that fails — a form of **sycophancy**.")
 
-# Reset the model selection to this question's anchor whenever the question
-# changes; manual model changes then stick until the next question switch.
-if st.session_state.get("_last_qid") != q["id"]:
-    st.session_state["model_select"] = q["anchor_model"]
-    st.session_state["_last_qid"] = q["id"]
+    for c in chat_examples:
+        emoji, color = OUTCOME_STYLE[c["outcome"]]
+        st.markdown("---")
+        gold_primary, _ = clean_gold(c["gold_answer"])
+        st.markdown(
+            f"<span class='badge' style='background:{color}22;color:{color};'>"
+            f"{emoji} {c['outcome']}</span> "
+            f"<span style='color:{MUTED};font-size:0.85rem'>{c['model']} · "
+            f"{c['dataset']} · gold: <b>{gold_primary}</b></span>",
+            unsafe_allow_html=True)
 
-# Now the rest of the sidebar controls.
-model = st.sidebar.radio("Model", models, key="model_select")
-method = st.sidebar.radio("Uncertainty method (sampling-based)", methods,
-                          index=0, key="method_select")
+        with st.chat_message("user", avatar="🧑"):
+            st.markdown(c["question"])
+        with st.chat_message("assistant", avatar="🤖"):
+            col = GOOD if c["initial_correct"] else CRITICAL
+            mk = "✓" if c["initial_correct"] else "✗"
+            st.markdown(f"{c['initial_answer']}  "
+                        f"<span style='color:{col};font-weight:700;font-size:1.1rem'>"
+                        f"{mk}</span>", unsafe_allow_html=True)
+            kh = c["kle_heat"]
+            word = "confident" if kh <= 0.2 else ("uncertain" if kh >= 0.6
+                                                  else "moderately uncertain")
+            st.caption(f"KLE-heat uncertainty: {kh:.2f} — {word}")
+
+        with st.chat_message("user", avatar="🧑"):
+            st.markdown(f"*{challenge_prompt}*")
+        with st.chat_message("assistant", avatar="🤖"):
+            col = GOOD if c["revised_correct"] else CRITICAL
+            mk = "✓" if c["revised_correct"] else "✗"
+            changed = (c["initial_answer"].strip().lower()
+                       != c["revised_answer"].strip().lower())
+            st.markdown(f"{c['revised_answer']}  "
+                        f"<span style='color:{col};font-weight:700;font-size:1.1rem'>"
+                        f"{mk}</span>", unsafe_allow_html=True)
+            st.caption("↪ changed its answer" if changed else "↪ kept its answer")
+
+        st.info(c["takeaway"])
+    st.stop()
+
+st.caption("Pre-generated results. Pick a model, then a question curated for "
+           "that model. The answer shown is always the selected model's, and "
+           "each question is a clean example of one outcome.")
+
+# ---------------------------------------------------------------------------
+# Sidebar controls
+# ---------------------------------------------------------------------------
+model = st.sidebar.selectbox("Model", models, index=0, key="model_select")
+method = st.sidebar.selectbox("Uncertainty method (sampling-based)", methods,
+                              index=0, key="method_select")
 st.sidebar.markdown("---")
 st.sidebar.markdown("**Methods** all estimate uncertainty from repeated samples "
                     "of the model's answer, clustered by meaning. Higher = more "
@@ -119,44 +176,75 @@ st.sidebar.markdown("**Methods** all estimate uncertainty from repeated samples 
 st.sidebar.caption("Only sampling-based methods are shown (no verbalized / "
                    "prompted self-confidence).")
 
-m = q["per_model"][model]
-emoji, cat_color = CATEGORY_STYLE[q["category"]]
-primary_gold, extra = clean_gold(q["gold_answer"])
+examples = examples_by_model[model]
+
+# order examples by outcome (cc, uw, cw) then dataset, for a tidy picker
+order = {o: i for i, o in enumerate(outcomes)}
+examples = sorted(examples, key=lambda e: (order[e["outcome"]], e["dataset"]))
+
+
+def q_label(e):
+    emoji = OUTCOME_STYLE[e["outcome"]][0]
+    q = e["question"]
+    q = q if len(q) <= 70 else q[:69] + "…"
+    return f"{emoji}  {e['outcome']} · {e['dataset']} — {q}"
+
+
+# Use unique label strings as options (robust; avoids format_func edge cases).
+q_labels = []
+for i, ex in enumerate(examples):
+    lab = q_label(ex)
+    if lab in q_labels:
+        lab = f"{lab}  ·#{i + 1}"
+    q_labels.append(lab)
+
+choice = st.selectbox("Question (curated for this model)", q_labels, index=0,
+                      key=f"q_{model}")
+e = examples[q_labels.index(choice)]
+
+# note any outcomes this model never exhibits
+present = {ex["outcome"] for ex in examples}
+missing = [o for o in outcomes if o not in present]
+if missing:
+    st.caption(f"ℹ️ {model} has no “{', '.join(missing)}” example — it never "
+               f"reaches that outcome under the strict thresholds.")
+
+emoji, cat_color = OUTCOME_STYLE[e["outcome"]]
+primary_gold, extra = clean_gold(e["gold_answer"])
 
 # ---------------------------------------------------------------------------
-# Question header
+# Question header — outcome is fixed for this (model, question), always matches.
 # ---------------------------------------------------------------------------
 st.markdown(
     f"<span class='badge' style='background:{cat_color}22;color:{cat_color};'>"
-    f"{emoji} {q['category']}</span> "
-    f"<span style='color:{MUTED};font-size:0.85rem'>illustrated by "
-    f"<b>{q['anchor_model']}</b> (loaded by default)</span>",
+    f"{emoji} {e['outcome']}</span> "
+    f"<span style='color:{MUTED};font-size:0.85rem'>{model} · {e['dataset']}</span>",
     unsafe_allow_html=True)
 
-st.markdown(f"### {q['question']}")
+st.markdown(f"### {e['question']}")
 
-if q.get("context"):
+if e.get("context"):
     with st.expander("Show context passage"):
-        st.write(q["context"])
+        st.write(e["context"])
 
 gold_txt = primary_gold + (f"  <span style='color:{MUTED}'>(+{extra} accepted "
                            f"variants)</span>" if extra else "")
 st.markdown(f"**Gold answer:** {gold_txt}", unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
-# Answer + correctness + uncertainty (reflect the SELECTED model)
+# Answer + correctness + uncertainty
 # ---------------------------------------------------------------------------
-correct = m["correct"]
+correct = e["correct"]
 mark = "✓" if correct else "✗"
 mark_color = GOOD if correct else CRITICAL
 verdict = "Correct" if correct else "Wrong"
-unc = m["metrics"].get(method)
+unc = e["metrics"].get(method)
 
 left, right = st.columns([3, 2])
 
 with left:
     st.markdown(f"#### {model}'s answer")
-    ans_display = m["answer"].strip().replace("\n", "  \n") or "*(no answer)*"
+    ans_display = e["answer"].strip().replace("\n", "  \n") or "*(no answer)*"
     st.markdown(
         f"<div class='answer-box'>"
         f"<span style='color:{mark_color};font-weight:700;font-size:1.3rem'>{mark}</span> "
@@ -178,8 +266,8 @@ with right:
             f"<div class='meter-track'><div class='meter-fill' "
             f"style='width:{pct}%;'></div></div>"
             f"<div style='color:{INK_2};font-size:0.85rem;margin-top:6px'>"
-            f"Confidence = {conf:.2f} &nbsp;·&nbsp; {m['n_clusters']} distinct "
-            f"answer clusters across {m['n_samples']} samples</div>",
+            f"Confidence = {conf:.2f} &nbsp;·&nbsp; {e['n_clusters']} distinct "
+            f"answer clusters across {e['n_samples']} samples</div>",
             unsafe_allow_html=True)
 
 st.markdown("---")
@@ -187,15 +275,16 @@ st.markdown("---")
 # ---------------------------------------------------------------------------
 # Two views
 # ---------------------------------------------------------------------------
-tab_overview, tab_clusters = st.tabs(
-    ["📋 All methods (this model)", "🔬 How the samples clustered — Discrete SE"])
+tab_overview, tab_clusters, tab_graph = st.tabs(
+    ["📋 All methods", "🔬 How the samples clustered — Discrete SE",
+     "🕸️ Semantic similarity graph — KLE-heat"])
 
 with tab_overview:
-    st.markdown("Every sampling-based method scored on **this** question for "
+    st.markdown(f"Every sampling-based method scored on this question for "
                 f"**{model}**. The selected method is highlighted.")
     rows = []
     for name in methods:
-        v = m["metrics"].get(name)
+        v = e["metrics"].get(name)
         rows.append({
             "Method": name,
             "Uncertainty": "—" if v is None else f"{v:.3f}",
@@ -223,8 +312,8 @@ with tab_clusters:
         "- Samples scattered across many clusters → the model is unsure → **high** "
         "uncertainty.")
 
-    clusters = m["clusters"]
-    n = m["n_samples"]
+    clusters = e["clusters"]
+    n = e["n_samples"]
     sizes = [c["size"] for c in clusters]
     reps = [c["representative"] for c in clusters]
 
@@ -265,3 +354,71 @@ with tab_clusters:
                          f"— {c['size']}/{n} samples ({share:.0%})"):
             for member in c["members"]:
                 st.markdown(f"- {member.strip() or '*(empty)*'}")
+
+with tab_graph:
+    st.markdown(
+        "**KLE-heat** doesn't make hard clusters. It builds a *semantic "
+        "similarity graph* over the samples and diffuses a heat kernel across it, "
+        "then reads uncertainty off how connected the graph is.")
+    st.markdown(
+        "- Each **node** is one sampled answer.\n"
+        "- An **edge** links two answers the NLI model finds semantically "
+        "compatible — thicker = stronger (mutual entailment = 2, one-way / "
+        "neutral = 0.5–1.5, contradiction = no edge).\n"
+        "- **One connected blob** → the model keeps agreeing with itself → "
+        "**low** uncertainty. **Scattered / isolated** nodes → disagreement → "
+        "**high** uncertainty.")
+
+    g = e["graph"]
+    nodes, edges = g["nodes"], g["edges"]
+
+    def trunc_g(s, k=70):
+        s = s.replace("\n", " ").strip()
+        return s if len(s) <= k else s[: k - 1] + "…"
+
+    fig_g = go.Figure()
+    # edges grouped by weight so each bucket gets its own width / opacity
+    by_w = {}
+    for ed in edges:
+        by_w.setdefault(ed["w"], []).append(ed)
+    for w in sorted(by_w):
+        xs, ys = [], []
+        for ed in by_w[w]:
+            a, b = nodes[ed["s"]], nodes[ed["t"]]
+            xs += [a["x"], b["x"], None]
+            ys += [a["y"], b["y"], None]
+        fig_g.add_trace(go.Scatter(
+            x=xs, y=ys, mode="lines",
+            line=dict(width=0.6 + 1.4 * w, color=f"rgba(82,81,78,{0.18 + 0.22 * w:.2f})"),
+            hoverinfo="skip", showlegend=False))
+
+    # nodes coloured by cluster (redundant with position + edges; gray overflow)
+    node_colors = [CAT[nd["crank"]] if nd["crank"] < len(CAT) else MUTED
+                   for nd in nodes]
+    hover = [f"cluster {nd['cluster']}<br>{trunc_g(nd['answer'])}" for nd in nodes]
+    fig_g.add_trace(go.Scatter(
+        x=[nd["x"] for nd in nodes], y=[nd["y"] for nd in nodes],
+        mode="markers", marker=dict(size=22, color=node_colors,
+                                    line=dict(width=2, color=SURFACE)),
+        hovertext=hover, hoverinfo="text", showlegend=False))
+    fig_g.update_layout(
+        height=440, margin=dict(l=10, r=10, t=10, b=10),
+        paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
+        xaxis=dict(visible=False), yaxis=dict(visible=False,
+                                              scaleanchor="x", scaleratio=1),
+        font=dict(color=INK, family="system-ui, -apple-system, Segoe UI, sans-serif"),
+    )
+    st.plotly_chart(fig_g, width="stretch")
+
+    kh = e["metrics"].get("KLE-heat")
+    n_edges = len(edges)
+    max_edges = e["n_samples"] * (e["n_samples"] - 1) // 2
+    kh_txt = "—" if kh is None else f"{kh:.2f}"
+    st.markdown(
+        f"**KLE-heat uncertainty = {kh_txt}** · {n_edges}/{max_edges} possible "
+        f"semantic links present · {e['n_clusters']} colour"
+        f"{'s' if e['n_clusters'] != 1 else ''} = hard clusters (shown only to "
+        f"help read the graph; KLE-heat itself never commits to them).")
+    st.caption("Node colour marks the hard semantic cluster purely as a reading "
+               "aid — the clustering KLE-heat actually uses is the soft, weighted "
+               "connectivity shown by the edges. Hover a node to see its answer.")
