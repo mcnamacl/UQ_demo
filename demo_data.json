@@ -3055,279 +3055,184 @@
         }
       },
       {
-        "id": "chal-43",
+        "id": "chal-874",
         "dataset": "SVAMP",
-        "question": "How many points did he score in the game?",
-        "context": "Luke played 177 rounds of a trivia game. If he gained 46 points in each round",
-        "gold_answer": "8142",
+        "question": "How many tomatoes are left?",
+        "context": "A farmer had 105 green tomatoes and 71 red tomatoes in his garden. If he picked 137 tomatoes",
+        "gold_answer": "39",
         "outcome": "Uncertain & wrong",
-        "answer": "Luke scored 177 * 46 = 8122 points in the game.",
+        "answer": "The farmer has 15 tomatoes left (105 + 71 - 137).",
         "correct": false,
         "n_samples": 10,
         "n_clusters": 7,
         "clusters": [
           {
             "members": [
-              "Luke scored 177 * 46 = 8092 points in the trivia game.",
-              "Luke scored 177 * 46 = 8102 points in the trivia game.",
-              "Luke scored a total of 177 * 46 = 8092 points in the game."
+              "The farmer has 4 tomatoes left (105 + 71 - 137).",
+              "The farmer has 4 tomatoes left (105 + 71 - 137)."
             ],
-            "representative": "Luke scored 177 * 46 = 8092 points in the trivia game.",
-            "size": 3
-          },
-          {
-            "members": [
-              "Luke scored 177 * 46 = 8122 points in the game.",
-              "Luke scored 177 * 46 = 8122 points in the game."
-            ],
-            "representative": "Luke scored 177 * 46 = 8122 points in the game.",
+            "representative": "The farmer has 4 tomatoes left (105 + 71 - 137).",
             "size": 2
           },
           {
             "members": [
-              "Luke scored 177 * 46 = 8074 points in the trivia game."
+              "The farmer has 31 tomatoes left (105 green + 71 red - 137 picked = 31).",
+              "The farmer has 31 tomatoes left (105 + 71 - 137)."
             ],
-            "representative": "Luke scored 177 * 46 = 8074 points in the trivia game.",
+            "representative": "The farmer has 31 tomatoes left (105 + 71 - 137).",
+            "size": 2
+          },
+          {
+            "members": [
+              "The farmer has 41 tomatoes left (105 + 71 - 137).",
+              "The farmer has 41 tomatoes left (105 + 71 - 137)."
+            ],
+            "representative": "The farmer has 41 tomatoes left (105 + 71 - 137).",
+            "size": 2
+          },
+          {
+            "members": [
+              "The farmer has 10 tomatoes left (105 + 71 - 137)."
+            ],
+            "representative": "The farmer has 10 tomatoes left (105 + 71 - 137).",
             "size": 1
           },
           {
             "members": [
-              "Luke scored 177 * 46 = 8142 points in the game."
+              "The farmer has 51 tomatoes left (105 + 71 - 137)."
             ],
-            "representative": "Luke scored 177 * 46 = 8142 points in the game.",
+            "representative": "The farmer has 51 tomatoes left (105 + 71 - 137).",
             "size": 1
           },
           {
             "members": [
-              "Luke scored 177 * 46 = 8132 points in the game."
+              "The farmer has 26 tomatoes left (105 + 71 - 137)."
             ],
-            "representative": "Luke scored 177 * 46 = 8132 points in the game.",
+            "representative": "The farmer has 26 tomatoes left (105 + 71 - 137).",
             "size": 1
           },
           {
             "members": [
-              "Luke scored 177 * 46 = 8082 points in the game."
+              "The question does not provide information about the number of tomatoes picked from the green or red groups, only the total number picked (137). Therefore, we cannot determine how many tomatoes are left in the garden."
             ],
-            "representative": "Luke scored 177 * 46 = 8082 points in the game.",
-            "size": 1
-          },
-          {
-            "members": [
-              "Luke scored 177 * 46 = 8112 points in the game."
-            ],
-            "representative": "Luke scored 177 * 46 = 8112 points in the game.",
+            "representative": "The question does not provide information about the number of tomatoes picked from the green or red groups, only the total number picked (137). Therefore, we cannot determine how many tomatoes are left in the garden.",
             "size": 1
           }
         ],
-        "dse_raw": 1.8343719702816235,
+        "dse_raw": 1.8866967846580787,
         "graph": {
           "nodes": [
             {
               "i": 0,
-              "x": 0.081,
-              "y": 0.1951,
+              "x": 0.8073,
+              "y": 0.551,
               "cluster": 0,
-              "crank": 0,
-              "answer": "Luke scored 177 * 46 = 8092 points in the trivia game."
+              "crank": 3,
+              "answer": "The farmer has 10 tomatoes left (105 + 71 - 137)."
             },
             {
               "i": 1,
-              "x": 0.4916,
-              "y": -0.5669,
+              "x": 0.9687,
+              "y": -0.1467,
               "cluster": 1,
-              "crank": 2,
-              "answer": "Luke scored 177 * 46 = 8074 points in the trivia game."
+              "crank": 4,
+              "answer": "The farmer has 51 tomatoes left (105 + 71 - 137)."
             },
             {
               "i": 2,
-              "x": 0.1299,
-              "y": -0.5889,
+              "x": -0.6684,
+              "y": -0.7858,
               "cluster": 2,
-              "crank": 1,
-              "answer": "Luke scored 177 * 46 = 8122 points in the game."
+              "crank": 5,
+              "answer": "The farmer has 26 tomatoes left (105 + 71 - 137)."
             },
             {
               "i": 3,
-              "x": -0.0415,
-              "y": 0.6815,
-              "cluster": 0,
+              "x": -0.2383,
+              "y": 0.9356,
+              "cluster": 3,
               "crank": 0,
-              "answer": "Luke scored 177 * 46 = 8102 points in the trivia game."
+              "answer": "The farmer has 4 tomatoes left (105 + 71 - 137)."
             },
             {
               "i": 4,
-              "x": 0.8782,
-              "y": -0.229,
-              "cluster": 2,
-              "crank": 1,
-              "answer": "Luke scored 177 * 46 = 8122 points in the game."
+              "x": 0.0962,
+              "y": 0.945,
+              "cluster": 3,
+              "crank": 0,
+              "answer": "The farmer has 4 tomatoes left (105 + 71 - 137)."
             },
             {
               "i": 5,
-              "x": -0.2977,
-              "y": -0.0025,
-              "cluster": 0,
-              "crank": 0,
-              "answer": "Luke scored a total of 177 * 46 = 8092 points in the game."
+              "x": -0.6461,
+              "y": 0.0656,
+              "cluster": 4,
+              "crank": 1,
+              "answer": "The farmer has 31 tomatoes left (105 green + 71 red - 137 picked = 31)."
             },
             {
               "i": 6,
-              "x": 0.8965,
-              "y": 0.5561,
-              "cluster": 3,
-              "crank": 3,
-              "answer": "Luke scored 177 * 46 = 8142 points in the game."
+              "x": -0.0137,
+              "y": -0.0017,
+              "cluster": 5,
+              "crank": 6,
+              "answer": "The question does not provide information about the number of tomatoes picked from the green or red groups, only the total number picked (137). Therefore, we cannot determine how many tomatoes are left in the garden."
             },
             {
               "i": 7,
-              "x": -0.4243,
-              "y": -0.8319,
+              "x": -1.0,
+              "y": 0.1604,
               "cluster": 4,
-              "crank": 4,
-              "answer": "Luke scored 177 * 46 = 8132 points in the game."
+              "crank": 1,
+              "answer": "The farmer has 31 tomatoes left (105 + 71 - 137)."
             },
             {
               "i": 8,
-              "x": -0.7139,
-              "y": 0.7008,
-              "cluster": 5,
-              "crank": 5,
-              "answer": "Luke scored 177 * 46 = 8082 points in the game."
+              "x": 0.195,
+              "y": -0.9297,
+              "cluster": 6,
+              "crank": 2,
+              "answer": "The farmer has 41 tomatoes left (105 + 71 - 137)."
             },
             {
               "i": 9,
-              "x": -1.0,
-              "y": 0.0857,
+              "x": 0.4993,
+              "y": -0.7938,
               "cluster": 6,
-              "crank": 6,
-              "answer": "Luke scored 177 * 46 = 8112 points in the game."
+              "crank": 2,
+              "answer": "The farmer has 41 tomatoes left (105 + 71 - 137)."
             }
           ],
           "edges": [
             {
               "s": 0,
-              "t": 2,
-              "w": 1.0
-            },
-            {
-              "s": 0,
-              "t": 3,
-              "w": 2.0
-            },
-            {
-              "s": 0,
-              "t": 4,
-              "w": 1.0
-            },
-            {
-              "s": 0,
-              "t": 5,
-              "w": 1.5
-            },
-            {
-              "s": 0,
               "t": 6,
-              "w": 1.0
-            },
-            {
-              "s": 0,
-              "t": 7,
-              "w": 1.0
-            },
-            {
-              "s": 0,
-              "t": 8,
-              "w": 1.0
-            },
-            {
-              "s": 0,
-              "t": 9,
-              "w": 1.0
-            },
-            {
-              "s": 1,
-              "t": 2,
-              "w": 1.0
-            },
-            {
-              "s": 1,
-              "t": 4,
-              "w": 1.0
-            },
-            {
-              "s": 1,
-              "t": 5,
               "w": 0.5
             },
             {
               "s": 1,
               "t": 6,
-              "w": 1.0
-            },
-            {
-              "s": 1,
-              "t": 7,
-              "w": 1.0
-            },
-            {
-              "s": 1,
-              "t": 8,
-              "w": 0.5
-            },
-            {
-              "s": 1,
-              "t": 9,
               "w": 0.5
             },
             {
               "s": 2,
-              "t": 3,
+              "t": 6,
               "w": 0.5
             },
             {
-              "s": 2,
+              "s": 3,
               "t": 4,
               "w": 2.0
             },
             {
-              "s": 2,
-              "t": 5,
-              "w": 1.0
-            },
-            {
-              "s": 3,
-              "t": 4,
-              "w": 0.5
-            },
-            {
-              "s": 3,
-              "t": 5,
-              "w": 1.5
-            },
-            {
               "s": 3,
               "t": 6,
-              "w": 0.5
-            },
-            {
-              "s": 3,
-              "t": 7,
-              "w": 0.5
-            },
-            {
-              "s": 3,
-              "t": 8,
-              "w": 1.0
-            },
-            {
-              "s": 3,
-              "t": 9,
               "w": 0.5
             },
             {
               "s": 4,
-              "t": 5,
-              "w": 1.0
+              "t": 6,
+              "w": 0.5
             },
             {
               "s": 5,
@@ -3337,17 +3242,312 @@
             {
               "s": 5,
               "t": 7,
+              "w": 1.5
+            },
+            {
+              "s": 6,
+              "t": 7,
+              "w": 0.5
+            },
+            {
+              "s": 6,
+              "t": 8,
+              "w": 0.5
+            },
+            {
+              "s": 6,
+              "t": 9,
+              "w": 0.5
+            },
+            {
+              "s": 8,
+              "t": 9,
               "w": 2.0
+            }
+          ]
+        },
+        "metrics": {
+          "Semantic Entropy": 0.7180634098791485,
+          "Discrete SE": 0.8193820026016113,
+          "Evidential SE": 0.9913906386354442,
+          "KLE-full": 0.9057197041256965,
+          "KLE-heat": 0.950875627717656,
+          "Chao-Shen": 1.0,
+          "Hybrid Chao-Shen": 1.0
+        }
+      },
+      {
+        "id": "tc_1622",
+        "dataset": "TriviaQA",
+        "question": "What US sitcom was the first exported to Britain?",
+        "context": "",
+        "gold_answer": "Amos n Andy / Amos And Andy / Amos and andy / Amos N Andy / Amos & Andy / George %22Kingfish%22 Stevens / Amos and Andy / Amos 'N' Andy / Brazilian Brass Mines / Amos ‘n’ Andy / Amos 'n Andy / Amos N' Andy / The Amos 'n Andy Show / Amos 'n Andy Show / Amos 'n' Andy Show / Amos 'n' Andy",
+        "outcome": "Uncertain & wrong",
+        "answer": "The first US sitcom exported to Britain was \"I Love Lucy,\" which debuted in the UK in 1955.",
+        "correct": false,
+        "n_samples": 10,
+        "n_clusters": 5,
+        "clusters": [
+          {
+            "members": [
+              "The first American sitcom exported to Britain was \"I Love Lucy,\" which started airing in the UK in 1954.",
+              "\"I Love Lucy\" was the first American sitcom to be exported to Britain. It aired in the UK in the early 1950s.",
+              "\"I Love Lucy\" was the first U.S. sitcom to be exported to Britain. It first aired in the UK in 1954."
+            ],
+            "representative": "\"I Love Lucy\" was the first U.S. sitcom to be exported to Britain. It first aired in the UK in 1954.",
+            "size": 3
+          },
+          {
+            "members": [
+              "The first American sitcom to be exported to Britain was \"I Love Lucy,\" which debuted on British television in 1955, two years after its US premiere.",
+              "The first U.S. sitcom exported to Britain was \"I Love Lucy\" in the 1950s."
+            ],
+            "representative": "The first U.S. sitcom exported to Britain was \"I Love Lucy\" in the 1950s.",
+            "size": 2
+          },
+          {
+            "members": [
+              "The first American sitcom exported to Britain was \"I Love Lucy,\" which debuted in the UK in 1956.",
+              "The first American sitcom to be exported to Britain was \"I Love Lucy,\" which premiered in the UK in 1956."
+            ],
+            "representative": "The first American sitcom exported to Britain was \"I Love Lucy,\" which debuted in the UK in 1956.",
+            "size": 2
+          },
+          {
+            "members": [
+              "The first American sitcom exported to Britain was \"I Love Lucy\" in 1951.",
+              "The first US sitcom exported to Britain was \"I Love Lucy.\" It was aired on the BBC starting in 1951."
+            ],
+            "representative": "The first American sitcom exported to Britain was \"I Love Lucy\" in 1951.",
+            "size": 2
+          },
+          {
+            "members": [
+              "The first American sitcom to be exported to Britain was \"I Love Lucy\" in the late 1950s."
+            ],
+            "representative": "The first American sitcom to be exported to Britain was \"I Love Lucy\" in the late 1950s.",
+            "size": 1
+          }
+        ],
+        "dse_raw": 1.5571130980576458,
+        "graph": {
+          "nodes": [
+            {
+              "i": 0,
+              "x": 0.5675,
+              "y": 0.3092,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "The first American sitcom exported to Britain was \"I Love Lucy,\" which started airing in the UK in 1954."
+            },
+            {
+              "i": 1,
+              "x": -0.1138,
+              "y": 0.2515,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "\"I Love Lucy\" was the first American sitcom to be exported to Britain. It aired in the UK in the early 1950s."
+            },
+            {
+              "i": 2,
+              "x": -1.0,
+              "y": -0.2782,
+              "cluster": 1,
+              "crank": 1,
+              "answer": "The first American sitcom to be exported to Britain was \"I Love Lucy,\" which debuted on British television in 1955, two years after its US premiere."
+            },
+            {
+              "i": 3,
+              "x": -0.0048,
+              "y": -0.0466,
+              "cluster": 1,
+              "crank": 1,
+              "answer": "The first U.S. sitcom exported to Britain was \"I Love Lucy\" in the 1950s."
+            },
+            {
+              "i": 4,
+              "x": -0.8186,
+              "y": 0.1689,
+              "cluster": 2,
+              "crank": 2,
+              "answer": "The first American sitcom exported to Britain was \"I Love Lucy,\" which debuted in the UK in 1956."
+            },
+            {
+              "i": 5,
+              "x": 0.3715,
+              "y": 0.8504,
+              "cluster": 3,
+              "crank": 3,
+              "answer": "The first American sitcom exported to Britain was \"I Love Lucy\" in 1951."
+            },
+            {
+              "i": 6,
+              "x": 0.8973,
+              "y": 0.2041,
+              "cluster": 3,
+              "crank": 3,
+              "answer": "The first US sitcom exported to Britain was \"I Love Lucy.\" It was aired on the BBC starting in 1951."
+            },
+            {
+              "i": 7,
+              "x": -0.633,
+              "y": -0.5857,
+              "cluster": 2,
+              "crank": 2,
+              "answer": "The first American sitcom to be exported to Britain was \"I Love Lucy,\" which premiered in the UK in 1956."
+            },
+            {
+              "i": 8,
+              "x": 0.033,
+              "y": -0.4506,
+              "cluster": 4,
+              "crank": 4,
+              "answer": "The first American sitcom to be exported to Britain was \"I Love Lucy\" in the late 1950s."
+            },
+            {
+              "i": 9,
+              "x": 0.7009,
+              "y": -0.423,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "\"I Love Lucy\" was the first U.S. sitcom to be exported to Britain. It first aired in the UK in 1954."
+            }
+          ],
+          "edges": [
+            {
+              "s": 0,
+              "t": 1,
+              "w": 1.5
+            },
+            {
+              "s": 0,
+              "t": 3,
+              "w": 1.5
+            },
+            {
+              "s": 0,
+              "t": 5,
+              "w": 0.5
+            },
+            {
+              "s": 0,
+              "t": 8,
+              "w": 1.0
+            },
+            {
+              "s": 0,
+              "t": 9,
+              "w": 2.0
+            },
+            {
+              "s": 1,
+              "t": 2,
+              "w": 1.5
+            },
+            {
+              "s": 1,
+              "t": 3,
+              "w": 1.5
+            },
+            {
+              "s": 1,
+              "t": 4,
+              "w": 1.5
+            },
+            {
+              "s": 1,
+              "t": 5,
+              "w": 1.5
+            },
+            {
+              "s": 1,
+              "t": 6,
+              "w": 1.5
+            },
+            {
+              "s": 1,
+              "t": 7,
+              "w": 1.5
+            },
+            {
+              "s": 1,
+              "t": 8,
+              "w": 0.5
+            },
+            {
+              "s": 1,
+              "t": 9,
+              "w": 1.5
+            },
+            {
+              "s": 2,
+              "t": 3,
+              "w": 1.5
+            },
+            {
+              "s": 2,
+              "t": 8,
+              "w": 1.0
+            },
+            {
+              "s": 3,
+              "t": 4,
+              "w": 1.5
+            },
+            {
+              "s": 3,
+              "t": 5,
+              "w": 1.5
+            },
+            {
+              "s": 3,
+              "t": 6,
+              "w": 1.5
+            },
+            {
+              "s": 3,
+              "t": 7,
+              "w": 1.5
+            },
+            {
+              "s": 3,
+              "t": 8,
+              "w": 1.5
+            },
+            {
+              "s": 3,
+              "t": 9,
+              "w": 1.5
+            },
+            {
+              "s": 4,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 4,
+              "t": 8,
+              "w": 1.0
+            },
+            {
+              "s": 5,
+              "t": 6,
+              "w": 1.5
             },
             {
               "s": 5,
               "t": 8,
-              "w": 2.0
+              "w": 0.5
             },
             {
-              "s": 5,
-              "t": 9,
-              "w": 2.0
+              "s": 6,
+              "t": 8,
+              "w": 1.0
+            },
+            {
+              "s": 7,
+              "t": 8,
+              "w": 1.0
             },
             {
               "s": 8,
@@ -3357,13 +3557,13 @@
           ]
         },
         "metrics": {
-          "Semantic Entropy": 0.7149711994080155,
-          "Discrete SE": 0.7966576244513048,
-          "Evidential SE": 0.9712616133251063,
-          "KLE-full": 0.843243740494081,
-          "KLE-heat": 0.7817329120429792,
-          "Chao-Shen": 1.0,
-          "Hybrid Chao-Shen": 1.0
+          "Semantic Entropy": 0.619563657737699,
+          "Discrete SE": 0.6762456261857126,
+          "Evidential SE": 0.999956078923657,
+          "KLE-full": 0.8310605111309816,
+          "KLE-heat": 0.7147603729697133,
+          "Chao-Shen": 0.780806928565014,
+          "Hybrid Chao-Shen": 0.780806928565014
         }
       },
       {
@@ -3718,139 +3918,133 @@
         }
       },
       {
-        "id": "chal-15",
+        "id": "chal-169",
         "dataset": "SVAMP",
-        "question": "How many birds are sitting on the fence?",
-        "context": "6 birds were sitting on the fence. 4 more birds and 8 more storks came to join them.",
-        "gold_answer": "10",
+        "question": "How many bottle caps did danny have at first?",
+        "context": "Danny collects bottle caps. He found 63 bottle caps at the park while he threw away 51 old ones. Now he has 33 bottle caps in his collection.",
+        "gold_answer": "21",
         "outcome": "Confident & wrong",
-        "answer": "14 birds",
+        "answer": "Danny had 63 - 51 = 12 bottle caps at first.",
         "correct": false,
         "n_samples": 10,
-        "n_clusters": 2,
+        "n_clusters": 1,
         "clusters": [
           {
             "members": [
-              "14 birds",
-              "14 birds (6 initial + 4 more birds + 8 storks as storks are also considered as birds in this context)",
-              "14 birds (initial 6 + 4 more birds + no change in the number of storks mentioned)",
-              "14 birds are sitting on the fence.",
-              "14 birds",
-              "14 birds",
-              "14 birds",
-              "14 birds (6 original + 4 more birds + 4 storks)",
-              "14 birds"
+              "Danny had 63 - 51 = 12 bottle caps at first.",
+              "Danny had 63 - 51 = 12 bottle caps at first.",
+              "Danny had 63 - 51 = 12 bottle caps at first.",
+              "Danny had 63 - 51 = 12 bottle caps at first.",
+              "Danny had 63 - 51 = 12 bottle caps at first.",
+              "Danny had 63 - 51 = 12 bottle caps at first.",
+              "Danny had 63 - 51 = 12 bottle caps at first.",
+              "Danny had 63 - 51 = 12 bottle caps at first.",
+              "Danny had 63 - 51 = 12 bottle caps at first.",
+              "Danny had 63 - 51 = 12 bottle caps at first."
             ],
-            "representative": "14 birds",
-            "size": 9
-          },
-          {
-            "members": [
-              "There are 18 birds on the fence."
-            ],
-            "representative": "There are 18 birds on the fence.",
-            "size": 1
+            "representative": "Danny had 63 - 51 = 12 bottle caps at first.",
+            "size": 10
           }
         ],
-        "dse_raw": 0.3250829733914482,
+        "dse_raw": 0.0,
         "graph": {
           "nodes": [
             {
               "i": 0,
-              "x": 0.0385,
-              "y": 0.1729,
+              "x": 0.5759,
+              "y": 0.8294,
               "cluster": 0,
               "crank": 0,
-              "answer": "14 birds"
+              "answer": "Danny had 63 - 51 = 12 bottle caps at first."
             },
             {
               "i": 1,
-              "x": 0.1179,
-              "y": 0.1739,
+              "x": 0.9497,
+              "y": 0.2214,
               "cluster": 0,
               "crank": 0,
-              "answer": "14 birds (6 initial + 4 more birds + 8 storks as storks are also considered as birds in this context)"
+              "answer": "Danny had 63 - 51 = 12 bottle caps at first."
             },
             {
               "i": 2,
-              "x": -0.0379,
-              "y": 0.0182,
+              "x": -0.7829,
+              "y": -0.6279,
               "cluster": 0,
               "crank": 0,
-              "answer": "14 birds (initial 6 + 4 more birds + no change in the number of storks mentioned)"
+              "answer": "Danny had 63 - 51 = 12 bottle caps at first."
             },
             {
               "i": 3,
-              "x": -0.0734,
-              "y": 0.1233,
+              "x": -0.7651,
+              "y": 0.6801,
               "cluster": 0,
               "crank": 0,
-              "answer": "14 birds are sitting on the fence."
+              "answer": "Danny had 63 - 51 = 12 bottle caps at first."
             },
             {
               "i": 4,
-              "x": 0.0555,
-              "y": 0.1127,
+              "x": 0.0129,
+              "y": 0.1136,
               "cluster": 0,
               "crank": 0,
-              "answer": "14 birds"
+              "answer": "Danny had 63 - 51 = 12 bottle caps at first."
             },
             {
               "i": 5,
-              "x": -0.0125,
-              "y": 0.0944,
+              "x": -0.1211,
+              "y": 0.9998,
               "cluster": 0,
               "crank": 0,
-              "answer": "14 birds"
+              "answer": "Danny had 63 - 51 = 12 bottle caps at first."
             },
             {
               "i": 6,
-              "x": 0.1029,
-              "y": 0.073,
+              "x": 0.923,
+              "y": -0.4872,
               "cluster": 0,
               "crank": 0,
-              "answer": "14 birds"
+              "answer": "Danny had 63 - 51 = 12 bottle caps at first."
             },
             {
               "i": 7,
-              "x": -0.2175,
+              "x": -0.219,
               "y": -1.0,
-              "cluster": 1,
-              "crank": 1,
-              "answer": "There are 18 birds on the fence."
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Danny had 63 - 51 = 12 bottle caps at first."
             },
             {
               "i": 8,
-              "x": -0.0187,
-              "y": 0.1971,
+              "x": -0.9135,
+              "y": 0.0156,
               "cluster": 0,
               "crank": 0,
-              "answer": "14 birds (6 original + 4 more birds + 4 storks)"
+              "answer": "Danny had 63 - 51 = 12 bottle caps at first."
             },
             {
               "i": 9,
-              "x": 0.0451,
-              "y": 0.0343,
+              "x": 0.34,
+              "y": -0.7448,
               "cluster": 0,
               "crank": 0,
-              "answer": "14 birds"
+              "answer": "Danny had 63 - 51 = 12 bottle caps at first."
             }
           ],
           "edges": [
             {
               "s": 0,
               "t": 1,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 0,
               "t": 2,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 0,
               "t": 3,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 0,
@@ -3869,8 +4063,13 @@
             },
             {
               "s": 0,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 0,
               "t": 8,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 0,
@@ -3880,92 +4079,107 @@
             {
               "s": 1,
               "t": 2,
-              "w": 0.5
+              "w": 2.0
             },
             {
               "s": 1,
               "t": 3,
-              "w": 1.0
+              "w": 2.0
             },
             {
               "s": 1,
               "t": 4,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 1,
               "t": 5,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 1,
               "t": 6,
-              "w": 1.5
+              "w": 2.0
+            },
+            {
+              "s": 1,
+              "t": 7,
+              "w": 2.0
             },
             {
               "s": 1,
               "t": 8,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 1,
               "t": 9,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 2,
               "t": 3,
-              "w": 1.0
+              "w": 2.0
             },
             {
               "s": 2,
               "t": 4,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 2,
               "t": 5,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 2,
               "t": 6,
-              "w": 1.5
+              "w": 2.0
+            },
+            {
+              "s": 2,
+              "t": 7,
+              "w": 2.0
             },
             {
               "s": 2,
               "t": 8,
-              "w": 1.0
+              "w": 2.0
             },
             {
               "s": 2,
               "t": 9,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 3,
               "t": 4,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 3,
               "t": 5,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 3,
               "t": 6,
-              "w": 1.5
+              "w": 2.0
+            },
+            {
+              "s": 3,
+              "t": 7,
+              "w": 2.0
             },
             {
               "s": 3,
               "t": 8,
-              "w": 1.0
+              "w": 2.0
             },
             {
               "s": 3,
               "t": 9,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 4,
@@ -3979,8 +4193,13 @@
             },
             {
               "s": 4,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 4,
               "t": 8,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 4,
@@ -3994,8 +4213,13 @@
             },
             {
               "s": 5,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 5,
               "t": 8,
-              "w": 1.5
+              "w": 2.0
             },
             {
               "s": 5,
@@ -4004,29 +4228,44 @@
             },
             {
               "s": 6,
-              "t": 8,
-              "w": 1.5
+              "t": 7,
+              "w": 2.0
             },
             {
               "s": 6,
+              "t": 8,
+              "w": 2.0
+            },
+            {
+              "s": 6,
+              "t": 9,
+              "w": 2.0
+            },
+            {
+              "s": 7,
+              "t": 8,
+              "w": 2.0
+            },
+            {
+              "s": 7,
               "t": 9,
               "w": 2.0
             },
             {
               "s": 8,
               "t": 9,
-              "w": 1.5
+              "w": 2.0
             }
           ]
         },
         "metrics": {
-          "Semantic Entropy": 0.012037721804961396,
-          "Discrete SE": 0.14118174150460758,
-          "Evidential SE": 0.9516873672117669,
-          "KLE-full": 0.41606871196118717,
-          "KLE-heat": 0.38036199808970167,
-          "Chao-Shen": 0.22827168342345,
-          "Hybrid Chao-Shen": 0.22827168342345003
+          "Semantic Entropy": 0.0,
+          "Discrete SE": 0.0,
+          "Evidential SE": 0.21778014833054235,
+          "KLE-full": 0.3347320652819759,
+          "KLE-heat": 0.06644499787960677,
+          "Chao-Shen": 0.0,
+          "Hybrid Chao-Shen": 0.0
         }
       }
     ],
@@ -6769,6 +7008,357 @@
           "Evidential SE": 0.0,
           "KLE-full": null,
           "KLE-heat": 0.11035989677688023,
+          "Chao-Shen": 0.0,
+          "Hybrid Chao-Shen": 0.0
+        }
+      },
+      {
+        "id": "qb_7339",
+        "dataset": "TriviaQA",
+        "question": "Which chain of European retailers began with a store near a crossroads in Annecy, France in 1958?",
+        "context": "",
+        "gold_answer": "1Mobile / Carrefour / Carrefour Japan / Carredour / Carrefour Group / Carrefour SA / Carrefur / Carrefour (company) / Carefour / Pryca / Carrefour S.A.",
+        "outcome": "Confident & wrong",
+        "answer": "Decathlon",
+        "correct": false,
+        "n_samples": 10,
+        "n_clusters": 1,
+        "clusters": [
+          {
+            "members": [
+              "Decathlon",
+              "Decathlon",
+              "Decathlon",
+              "Decathlon",
+              "Decathlon",
+              "Decathlon",
+              "Decathlon",
+              "Decathlon",
+              "Decathlon",
+              "Decathlon"
+            ],
+            "representative": "Decathlon",
+            "size": 10
+          }
+        ],
+        "dse_raw": 0.0,
+        "graph": {
+          "nodes": [
+            {
+              "i": 0,
+              "x": 0.5759,
+              "y": 0.8294,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Decathlon"
+            },
+            {
+              "i": 1,
+              "x": 0.9497,
+              "y": 0.2214,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Decathlon"
+            },
+            {
+              "i": 2,
+              "x": -0.7829,
+              "y": -0.6279,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Decathlon"
+            },
+            {
+              "i": 3,
+              "x": -0.7651,
+              "y": 0.6801,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Decathlon"
+            },
+            {
+              "i": 4,
+              "x": 0.0129,
+              "y": 0.1136,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Decathlon"
+            },
+            {
+              "i": 5,
+              "x": -0.1211,
+              "y": 0.9998,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Decathlon"
+            },
+            {
+              "i": 6,
+              "x": 0.923,
+              "y": -0.4872,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Decathlon"
+            },
+            {
+              "i": 7,
+              "x": -0.219,
+              "y": -1.0,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Decathlon"
+            },
+            {
+              "i": 8,
+              "x": -0.9135,
+              "y": 0.0156,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Decathlon"
+            },
+            {
+              "i": 9,
+              "x": 0.34,
+              "y": -0.7448,
+              "cluster": 0,
+              "crank": 0,
+              "answer": "Decathlon"
+            }
+          ],
+          "edges": [
+            {
+              "s": 0,
+              "t": 1,
+              "w": 2.0
+            },
+            {
+              "s": 0,
+              "t": 2,
+              "w": 2.0
+            },
+            {
+              "s": 0,
+              "t": 3,
+              "w": 2.0
+            },
+            {
+              "s": 0,
+              "t": 4,
+              "w": 2.0
+            },
+            {
+              "s": 0,
+              "t": 5,
+              "w": 2.0
+            },
+            {
+              "s": 0,
+              "t": 6,
+              "w": 2.0
+            },
+            {
+              "s": 0,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 0,
+              "t": 8,
+              "w": 2.0
+            },
+            {
+              "s": 0,
+              "t": 9,
+              "w": 2.0
+            },
+            {
+              "s": 1,
+              "t": 2,
+              "w": 2.0
+            },
+            {
+              "s": 1,
+              "t": 3,
+              "w": 2.0
+            },
+            {
+              "s": 1,
+              "t": 4,
+              "w": 2.0
+            },
+            {
+              "s": 1,
+              "t": 5,
+              "w": 2.0
+            },
+            {
+              "s": 1,
+              "t": 6,
+              "w": 2.0
+            },
+            {
+              "s": 1,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 1,
+              "t": 8,
+              "w": 2.0
+            },
+            {
+              "s": 1,
+              "t": 9,
+              "w": 2.0
+            },
+            {
+              "s": 2,
+              "t": 3,
+              "w": 2.0
+            },
+            {
+              "s": 2,
+              "t": 4,
+              "w": 2.0
+            },
+            {
+              "s": 2,
+              "t": 5,
+              "w": 2.0
+            },
+            {
+              "s": 2,
+              "t": 6,
+              "w": 2.0
+            },
+            {
+              "s": 2,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 2,
+              "t": 8,
+              "w": 2.0
+            },
+            {
+              "s": 2,
+              "t": 9,
+              "w": 2.0
+            },
+            {
+              "s": 3,
+              "t": 4,
+              "w": 2.0
+            },
+            {
+              "s": 3,
+              "t": 5,
+              "w": 2.0
+            },
+            {
+              "s": 3,
+              "t": 6,
+              "w": 2.0
+            },
+            {
+              "s": 3,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 3,
+              "t": 8,
+              "w": 2.0
+            },
+            {
+              "s": 3,
+              "t": 9,
+              "w": 2.0
+            },
+            {
+              "s": 4,
+              "t": 5,
+              "w": 2.0
+            },
+            {
+              "s": 4,
+              "t": 6,
+              "w": 2.0
+            },
+            {
+              "s": 4,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 4,
+              "t": 8,
+              "w": 2.0
+            },
+            {
+              "s": 4,
+              "t": 9,
+              "w": 2.0
+            },
+            {
+              "s": 5,
+              "t": 6,
+              "w": 2.0
+            },
+            {
+              "s": 5,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 5,
+              "t": 8,
+              "w": 2.0
+            },
+            {
+              "s": 5,
+              "t": 9,
+              "w": 2.0
+            },
+            {
+              "s": 6,
+              "t": 7,
+              "w": 2.0
+            },
+            {
+              "s": 6,
+              "t": 8,
+              "w": 2.0
+            },
+            {
+              "s": 6,
+              "t": 9,
+              "w": 2.0
+            },
+            {
+              "s": 7,
+              "t": 8,
+              "w": 2.0
+            },
+            {
+              "s": 7,
+              "t": 9,
+              "w": 2.0
+            },
+            {
+              "s": 8,
+              "t": 9,
+              "w": 2.0
+            }
+          ]
+        },
+        "metrics": {
+          "Semantic Entropy": 0.0,
+          "Discrete SE": 0.0,
+          "Evidential SE": 0.0,
+          "KLE-full": null,
+          "KLE-heat": 0.06644499787960677,
           "Chao-Shen": 0.0,
           "Hybrid Chao-Shen": 0.0
         }
