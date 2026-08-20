@@ -516,6 +516,1099 @@
     "headline": "KLE-heat has the best correctness-AUROC in 7 of 9 small-model (model × dataset) configurations.",
     "note": "Black-box models expose no token probabilities, so methods that need them (KLE-full, Semantic Entropy, Evidential SE) are n/a there."
   },
+  "revision": {
+    "methods": [
+      "KLE-heat",
+      "Discrete SE",
+      "Chao-Shen",
+      "Hybrid Chao-Shen",
+      "KLE-full",
+      "Semantic Entropy",
+      "Evidential SE"
+    ],
+    "black_box_methods": [
+      "KLE-heat",
+      "Discrete SE",
+      "Chao-Shen",
+      "Hybrid Chao-Shen"
+    ],
+    "datasets": [
+      "SQuAD",
+      "SVAMP",
+      "TriviaQA"
+    ],
+    "models": [
+      "Llama 3.1 8B",
+      "Mistral 7B v3",
+      "Qwen 3.5 9B",
+      "Gemini 2.5 Flash",
+      "Claude Haiku 4.5"
+    ],
+    "auroc": {
+      "Llama 3.1 8B": {
+        "KLE-heat": {
+          "SQuAD": [
+            0.781,
+            0.005
+          ],
+          "SVAMP": [
+            0.686,
+            0.011
+          ],
+          "TriviaQA": [
+            0.756,
+            0.01
+          ]
+        },
+        "Discrete SE": {
+          "SQuAD": [
+            0.745,
+            0.022
+          ],
+          "SVAMP": [
+            0.674,
+            0.015
+          ],
+          "TriviaQA": [
+            0.749,
+            0.011
+          ]
+        },
+        "Chao-Shen": {
+          "SQuAD": [
+            0.745,
+            0.022
+          ],
+          "SVAMP": [
+            0.675,
+            0.013
+          ],
+          "TriviaQA": [
+            0.746,
+            0.011
+          ]
+        },
+        "Hybrid Chao-Shen": {
+          "SQuAD": [
+            0.752,
+            0.005
+          ],
+          "SVAMP": [
+            0.679,
+            0.012
+          ],
+          "TriviaQA": [
+            0.752,
+            0.016
+          ]
+        },
+        "KLE-full": {
+          "SQuAD": [
+            0.738,
+            0.042
+          ],
+          "SVAMP": [
+            0.647,
+            0.013
+          ],
+          "TriviaQA": [
+            0.754,
+            0.008
+          ]
+        },
+        "Semantic Entropy": {
+          "SQuAD": [
+            0.714,
+            0.042
+          ],
+          "SVAMP": [
+            0.559,
+            0.007
+          ],
+          "TriviaQA": [
+            0.737,
+            0.009
+          ]
+        },
+        "Evidential SE": {
+          "SQuAD": [
+            0.738,
+            0.003
+          ],
+          "SVAMP": [
+            0.618,
+            0.01
+          ],
+          "TriviaQA": [
+            0.73,
+            0.006
+          ]
+        }
+      },
+      "Mistral 7B v3": {
+        "KLE-heat": {
+          "SQuAD": [
+            0.752,
+            0.025
+          ],
+          "SVAMP": [
+            0.742,
+            0.011
+          ],
+          "TriviaQA": [
+            0.769,
+            0.011
+          ]
+        },
+        "Discrete SE": {
+          "SQuAD": [
+            0.698,
+            0.031
+          ],
+          "SVAMP": [
+            0.736,
+            0.01
+          ],
+          "TriviaQA": [
+            0.738,
+            0.008
+          ]
+        },
+        "Chao-Shen": {
+          "SQuAD": [
+            0.699,
+            0.03
+          ],
+          "SVAMP": [
+            0.737,
+            0.01
+          ],
+          "TriviaQA": [
+            0.737,
+            0.01
+          ]
+        },
+        "Hybrid Chao-Shen": {
+          "SQuAD": [
+            0.699,
+            0.034
+          ],
+          "SVAMP": [
+            0.739,
+            0.008
+          ],
+          "TriviaQA": [
+            0.737,
+            0.007
+          ]
+        },
+        "KLE-full": {
+          "SQuAD": [
+            0.687,
+            0.016
+          ],
+          "SVAMP": [
+            0.732,
+            0.001
+          ],
+          "TriviaQA": [
+            0.743,
+            0.007
+          ]
+        },
+        "Semantic Entropy": {
+          "SQuAD": [
+            0.668,
+            0.025
+          ],
+          "SVAMP": [
+            0.695,
+            0.011
+          ],
+          "TriviaQA": [
+            0.69,
+            0.018
+          ]
+        },
+        "Evidential SE": {
+          "SQuAD": [
+            0.733,
+            0.019
+          ],
+          "SVAMP": [
+            0.72,
+            0.008
+          ],
+          "TriviaQA": [
+            0.721,
+            0.021
+          ]
+        }
+      },
+      "Qwen 3.5 9B": {
+        "KLE-heat": {
+          "SQuAD": [
+            0.836,
+            0.03
+          ],
+          "SVAMP": [
+            0.865,
+            0.02
+          ],
+          "TriviaQA": [
+            0.793,
+            0.013
+          ]
+        },
+        "Discrete SE": {
+          "SQuAD": [
+            0.797,
+            0.024
+          ],
+          "SVAMP": [
+            0.874,
+            0.025
+          ],
+          "TriviaQA": [
+            0.802,
+            0.018
+          ]
+        },
+        "Chao-Shen": {
+          "SQuAD": [
+            0.796,
+            0.025
+          ],
+          "SVAMP": [
+            0.874,
+            0.033
+          ],
+          "TriviaQA": [
+            0.804,
+            0.016
+          ]
+        },
+        "Hybrid Chao-Shen": {
+          "SQuAD": [
+            0.803,
+            0.068
+          ],
+          "SVAMP": [
+            0.874,
+            0.032
+          ],
+          "TriviaQA": [
+            0.804,
+            0.016
+          ]
+        },
+        "KLE-full": {
+          "SQuAD": [
+            0.803,
+            0.052
+          ],
+          "SVAMP": [
+            0.873,
+            0.018
+          ],
+          "TriviaQA": [
+            0.779,
+            0.021
+          ]
+        },
+        "Semantic Entropy": {
+          "SQuAD": [
+            0.784,
+            0.039
+          ],
+          "SVAMP": [
+            0.853,
+            0.031
+          ],
+          "TriviaQA": [
+            0.754,
+            0.029
+          ]
+        },
+        "Evidential SE": {
+          "SQuAD": [
+            0.781,
+            0.032
+          ],
+          "SVAMP": [
+            0.806,
+            0.021
+          ],
+          "TriviaQA": [
+            0.733,
+            0.042
+          ]
+        }
+      },
+      "Gemini 2.5 Flash": {
+        "KLE-heat": {
+          "SQuAD": [
+            0.767,
+            0.067
+          ],
+          "SVAMP": [
+            0.906,
+            0.022
+          ],
+          "TriviaQA": [
+            0.641,
+            0.015
+          ]
+        },
+        "Discrete SE": {
+          "SQuAD": [
+            0.715,
+            0.065
+          ],
+          "SVAMP": [
+            0.905,
+            0.025
+          ],
+          "TriviaQA": [
+            0.659,
+            0.012
+          ]
+        },
+        "Chao-Shen": {
+          "SQuAD": [
+            0.715,
+            0.065
+          ],
+          "SVAMP": [
+            0.906,
+            0.026
+          ],
+          "TriviaQA": [
+            0.659,
+            0.012
+          ]
+        },
+        "Hybrid Chao-Shen": {
+          "SQuAD": [
+            0.687,
+            0.097
+          ],
+          "SVAMP": [
+            0.907,
+            0.026
+          ],
+          "TriviaQA": [
+            0.658,
+            0.013
+          ]
+        },
+        "KLE-full": {
+          "SQuAD": [
+            0.742,
+            0.061
+          ],
+          "SVAMP": [
+            0.901,
+            0.02
+          ],
+          "TriviaQA": [
+            0.674,
+            0.029
+          ]
+        },
+        "Semantic Entropy": {
+          "SQuAD": [
+            0.746,
+            0.046
+          ],
+          "SVAMP": [
+            0.902,
+            0.019
+          ],
+          "TriviaQA": [
+            0.654,
+            0.026
+          ]
+        },
+        "Evidential SE": {
+          "SQuAD": [
+            0.772,
+            0.072
+          ],
+          "SVAMP": [
+            0.915,
+            0.006
+          ],
+          "TriviaQA": [
+            0.771,
+            0.037
+          ]
+        }
+      },
+      "Claude Haiku 4.5": {
+        "KLE-heat": {
+          "SQuAD": [
+            0.743,
+            null
+          ],
+          "SVAMP": [
+            0.699,
+            null
+          ],
+          "TriviaQA": [
+            0.774,
+            null
+          ]
+        },
+        "Discrete SE": {
+          "SQuAD": [
+            0.704,
+            null
+          ],
+          "SVAMP": [
+            0.659,
+            null
+          ],
+          "TriviaQA": [
+            0.71,
+            null
+          ]
+        },
+        "Chao-Shen": {
+          "SQuAD": [
+            0.705,
+            null
+          ],
+          "SVAMP": [
+            0.659,
+            null
+          ],
+          "TriviaQA": [
+            0.711,
+            null
+          ]
+        },
+        "Hybrid Chao-Shen": {
+          "SQuAD": [
+            0.735,
+            null
+          ],
+          "SVAMP": [
+            0.696,
+            null
+          ],
+          "TriviaQA": [
+            0.736,
+            null
+          ]
+        },
+        "KLE-full": null,
+        "Semantic Entropy": null,
+        "Evidential SE": null
+      }
+    },
+    "accuracy": {
+      "Llama 3.1 8B": {
+        "SQuAD": {
+          "acc_init": 0.927,
+          "acc_rev": 0.859,
+          "rev_rate": 0.092,
+          "helped": 11.7,
+          "hurt": 46.0
+        },
+        "SVAMP": {
+          "acc_init": 0.801,
+          "acc_rev": 0.797,
+          "rev_rate": 0.256,
+          "helped": 26.7,
+          "hurt": 29.0
+        },
+        "TriviaQA": {
+          "acc_init": 0.692,
+          "acc_rev": 0.582,
+          "rev_rate": 0.231,
+          "helped": 27.3,
+          "hurt": 81.7
+        }
+      },
+      "Mistral 7B v3": {
+        "SQuAD": {
+          "acc_init": 0.912,
+          "acc_rev": 0.889,
+          "rev_rate": 0.075,
+          "helped": 12.3,
+          "hurt": 24.0
+        },
+        "SVAMP": {
+          "acc_init": 0.617,
+          "acc_rev": 0.553,
+          "rev_rate": 0.28,
+          "helped": 16.3,
+          "hurt": 48.7
+        },
+        "TriviaQA": {
+          "acc_init": 0.727,
+          "acc_rev": 0.703,
+          "rev_rate": 0.168,
+          "helped": 16.7,
+          "hurt": 28.3
+        }
+      },
+      "Qwen 3.5 9B": {
+        "SQuAD": {
+          "acc_init": 0.954,
+          "acc_rev": 0.944,
+          "rev_rate": 0.016,
+          "helped": 2.0,
+          "hurt": 7.0
+        },
+        "SVAMP": {
+          "acc_init": 0.747,
+          "acc_rev": 0.747,
+          "rev_rate": 0.015,
+          "helped": 2.0,
+          "hurt": 2.0
+        },
+        "TriviaQA": {
+          "acc_init": 0.613,
+          "acc_rev": 0.61,
+          "rev_rate": 0.051,
+          "helped": 8.3,
+          "hurt": 10.0
+        }
+      },
+      "Gemini 2.5 Flash": {
+        "SQuAD": {
+          "acc_init": 0.946,
+          "acc_rev": 0.929,
+          "rev_rate": 0.013,
+          "helped": 1.0,
+          "hurt": 9.3
+        },
+        "SVAMP": {
+          "acc_init": 0.897,
+          "acc_rev": 0.897,
+          "rev_rate": 0.016,
+          "helped": 2.0,
+          "hurt": 2.0
+        },
+        "TriviaQA": {
+          "acc_init": 0.867,
+          "acc_rev": 0.847,
+          "rev_rate": 0.043,
+          "helped": 5.0,
+          "hurt": 15.0
+        }
+      },
+      "Claude Haiku 4.5": {
+        "SQuAD": {
+          "acc_init": 0.978,
+          "acc_rev": 0.956,
+          "rev_rate": 0.126,
+          "helped": 5.0,
+          "hurt": 16.0
+        },
+        "SVAMP": {
+          "acc_init": 0.93,
+          "acc_rev": 0.92,
+          "rev_rate": 0.158,
+          "helped": 10.0,
+          "hurt": 15.0
+        },
+        "TriviaQA": {
+          "acc_init": 0.892,
+          "acc_rev": 0.834,
+          "rev_rate": 0.219,
+          "helped": 17.0,
+          "hurt": 46.0
+        }
+      }
+    },
+    "auroc_correct": [
+      [
+        "Mistral 7B v3",
+        "SVAMP",
+        "KLE-heat",
+        [
+          0.675,
+          0.601,
+          0.75
+        ]
+      ],
+      [
+        "Mistral 7B v3",
+        "SVAMP",
+        "Hybrid Chao-Shen",
+        [
+          0.67,
+          0.598,
+          0.734
+        ]
+      ],
+      [
+        "Mistral 7B v3",
+        "SVAMP",
+        "Discrete SE",
+        [
+          0.666,
+          0.603,
+          0.728
+        ]
+      ],
+      [
+        "Mistral 7B v3",
+        "TriviaQA",
+        "KLE-heat",
+        [
+          0.74,
+          0.665,
+          0.812
+        ]
+      ],
+      [
+        "Mistral 7B v3",
+        "TriviaQA",
+        "Hybrid Chao-Shen",
+        [
+          0.715,
+          0.628,
+          0.791
+        ]
+      ],
+      [
+        "Mistral 7B v3",
+        "TriviaQA",
+        "Discrete SE",
+        [
+          0.716,
+          0.636,
+          0.791
+        ]
+      ],
+      [
+        "Llama 3.1 8B",
+        "SVAMP",
+        "KLE-heat",
+        [
+          0.595,
+          0.538,
+          0.656
+        ]
+      ],
+      [
+        "Llama 3.1 8B",
+        "SVAMP",
+        "Hybrid Chao-Shen",
+        [
+          0.582,
+          0.525,
+          0.64
+        ]
+      ],
+      [
+        "Llama 3.1 8B",
+        "SVAMP",
+        "Discrete SE",
+        [
+          0.576,
+          0.519,
+          0.634
+        ]
+      ],
+      [
+        "Llama 3.1 8B",
+        "TriviaQA",
+        "KLE-heat",
+        [
+          0.743,
+          0.666,
+          0.816
+        ]
+      ],
+      [
+        "Llama 3.1 8B",
+        "TriviaQA",
+        "Hybrid Chao-Shen",
+        [
+          0.728,
+          0.654,
+          0.796
+        ]
+      ],
+      [
+        "Llama 3.1 8B",
+        "TriviaQA",
+        "Discrete SE",
+        [
+          0.711,
+          0.64,
+          0.777
+        ]
+      ],
+      [
+        "Claude Haiku 4.5",
+        "SQuAD",
+        "KLE-heat",
+        [
+          0.753,
+          0.683,
+          0.818
+        ]
+      ],
+      [
+        "Claude Haiku 4.5",
+        "SVAMP",
+        "KLE-heat",
+        [
+          0.697,
+          0.619,
+          0.772
+        ]
+      ],
+      [
+        "Claude Haiku 4.5",
+        "TriviaQA",
+        "KLE-heat",
+        [
+          0.759,
+          0.703,
+          0.816
+        ]
+      ]
+    ],
+    "stable_rate": 0.1,
+    "headline": "Where a model revises often enough to measure, its uncertainty moderately predicts WHICH answers it revises — but the revision almost always lowers accuracy. That is sycophancy, not correction.",
+    "note": "Revision-AUROC on low-revision-rate cells (shaded) is unstable — its bootstrap interval is too wide to interpret. Read only the cells at or above a ~10% revision rate."
+  },
+  "injection": {
+    "conditions": [
+      [
+        "baseline",
+        "Baseline (no clause)",
+        "control"
+      ],
+      [
+        "placebo",
+        "Placebo (neutral clause)",
+        "control"
+      ],
+      [
+        "text_uq",
+        "Text-only ‘uncertain’ (no #)",
+        "control"
+      ],
+      [
+        "random_uq",
+        "Random uncertainty value",
+        "control"
+      ],
+      [
+        "random_confidence",
+        "Random confidence value",
+        "control"
+      ],
+      [
+        "KLE-heat",
+        "TRUE KLE-heat uncertainty",
+        "true"
+      ],
+      [
+        "confidence",
+        "TRUE score as confidence",
+        "true"
+      ]
+    ],
+    "models": [
+      "Llama 3.1 8B",
+      "Mistral 7B v3",
+      "Qwen 3.5 9B"
+    ],
+    "datasets": [
+      "SQuAD",
+      "SVAMP",
+      "TriviaQA"
+    ],
+    "delta": {
+      "Llama 3.1 8B": {
+        "SQuAD": {
+          "baseline": [
+            -0.136,
+            0.004
+          ],
+          "placebo": [
+            -0.123,
+            0.01
+          ],
+          "text_uq": [
+            -0.082,
+            0.005
+          ],
+          "random_uq": [
+            -0.093,
+            0.002
+          ],
+          "random_confidence": [
+            -0.084,
+            0.002
+          ],
+          "KLE-heat": [
+            -0.082,
+            0.004
+          ],
+          "confidence": [
+            -0.098,
+            0.004
+          ]
+        },
+        "SVAMP": {
+          "baseline": [
+            -0.014,
+            0.002
+          ],
+          "placebo": [
+            -0.02,
+            0.005
+          ],
+          "text_uq": [
+            -0.016,
+            0.007
+          ],
+          "random_uq": [
+            -0.01,
+            0.005
+          ],
+          "random_confidence": [
+            -0.005,
+            0.002
+          ],
+          "KLE-heat": [
+            -0.009,
+            0.003
+          ],
+          "confidence": [
+            -0.009,
+            0.002
+          ]
+        },
+        "TriviaQA": {
+          "baseline": [
+            -0.209,
+            0.007
+          ],
+          "placebo": [
+            -0.252,
+            0.004
+          ],
+          "text_uq": [
+            -0.138,
+            0.01
+          ],
+          "random_uq": [
+            -0.138,
+            0.004
+          ],
+          "random_confidence": [
+            -0.122,
+            0.007
+          ],
+          "KLE-heat": [
+            -0.137,
+            0.004
+          ],
+          "confidence": [
+            -0.126,
+            0.011
+          ]
+        }
+      },
+      "Mistral 7B v3": {
+        "SQuAD": {
+          "baseline": [
+            0.0,
+            0.007
+          ],
+          "placebo": [
+            -0.001,
+            0.005
+          ],
+          "text_uq": [
+            0.005,
+            0.01
+          ],
+          "random_uq": [
+            -0.008,
+            0.002
+          ],
+          "random_confidence": [
+            -0.012,
+            0.006
+          ],
+          "KLE-heat": [
+            -0.007,
+            0.003
+          ],
+          "confidence": [
+            -0.009,
+            0.01
+          ]
+        },
+        "SVAMP": {
+          "baseline": [
+            -0.013,
+            0.005
+          ],
+          "placebo": [
+            -0.02,
+            0.004
+          ],
+          "text_uq": [
+            -0.007,
+            0.001
+          ],
+          "random_uq": [
+            -0.015,
+            0.006
+          ],
+          "random_confidence": [
+            -0.021,
+            0.002
+          ],
+          "KLE-heat": [
+            -0.015,
+            0.005
+          ],
+          "confidence": [
+            -0.051,
+            0.003
+          ]
+        },
+        "TriviaQA": {
+          "baseline": [
+            -0.009,
+            0.005
+          ],
+          "placebo": [
+            -0.007,
+            0.003
+          ],
+          "text_uq": [
+            -0.01,
+            0.005
+          ],
+          "random_uq": [
+            -0.007,
+            0.001
+          ],
+          "random_confidence": [
+            -0.019,
+            0.007
+          ],
+          "KLE-heat": [
+            -0.007,
+            0.002
+          ],
+          "confidence": [
+            -0.019,
+            0.003
+          ]
+        }
+      },
+      "Qwen 3.5 9B": {
+        "SQuAD": {
+          "baseline": [
+            -0.005,
+            0.003
+          ],
+          "placebo": [
+            -0.003,
+            0.003
+          ],
+          "text_uq": [
+            -0.004,
+            0.0
+          ],
+          "random_uq": [
+            -0.002,
+            0.006
+          ],
+          "random_confidence": [
+            -0.005,
+            0.005
+          ],
+          "KLE-heat": [
+            0.0,
+            0.004
+          ],
+          "confidence": [
+            -0.001,
+            0.001
+          ]
+        },
+        "SVAMP": {
+          "baseline": [
+            0.004,
+            0.002
+          ],
+          "placebo": [
+            -0.002,
+            0.0
+          ],
+          "text_uq": [
+            -0.003,
+            0.001
+          ],
+          "random_uq": [
+            -0.003,
+            0.002
+          ],
+          "random_confidence": [
+            -0.001,
+            0.002
+          ],
+          "KLE-heat": [
+            -0.003,
+            0.001
+          ],
+          "confidence": [
+            -0.008,
+            0.004
+          ]
+        },
+        "TriviaQA": {
+          "baseline": [
+            -0.009,
+            0.001
+          ],
+          "placebo": [
+            0.004,
+            0.0
+          ],
+          "text_uq": [
+            0.002,
+            0.004
+          ],
+          "random_uq": [
+            0.006,
+            0.004
+          ],
+          "random_confidence": [
+            -0.003,
+            0.003
+          ],
+          "KLE-heat": [
+            -0.003,
+            0.001
+          ],
+          "confidence": [
+            -0.003,
+            0.002
+          ]
+        }
+      }
+    },
+    "headline": "Giving the model its own uncertainty score at challenge time does not counter the sycophancy: the true-score conditions never reliably beat their random / placebo / baseline controls.",
+    "note": "Δaccuracy = accuracy(revised) − accuracy(initial); more negative = the challenge did more harm. If the number itself mattered, the two TRUE-score bars would sit clearly above the controls. They do not."
+  },
   "examples_by_model": {
     "Llama 3.1 8B": [
       {
